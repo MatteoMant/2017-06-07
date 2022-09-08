@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/c3p0-0.9.5.2.jar"/>
-	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.41-bin.jar"/>
 	<classpathentry kind="lib" path="lib/jgrapht-core-1.0.1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/javafx"/>
+	<classpathentry kind="lib" path="/Users/matteomantione/Downloads/javafx-sdk-18.0.2/lib/javafx.base.jar"/>
+	<classpathentry kind="lib" path="/Users/matteomantione/Downloads/javafx-sdk-18.0.2/lib/javafx.controls.jar"/>
+	<classpathentry kind="lib" path="/Users/matteomantione/Downloads/javafx-sdk-18.0.2/lib/javafx.web.jar"/>
+	<classpathentry kind="lib" path="/Users/matteomantione/Downloads/javafx-sdk-18.0.2/lib/javafx.swing.jar"/>
+	<classpathentry kind="lib" path="/Users/matteomantione/Downloads/javafx-sdk-18.0.2/lib/javafx.graphics.jar"/>
+	<classpathentry kind="lib" path="/Users/matteomantione/Downloads/javafx-sdk-18.0.2/lib/javafx.media.jar"/>
+	<classpathentry kind="lib" path="/Users/matteomantione/Downloads/javafx-sdk-18.0.2/lib/javafx-swt.jar"/>
+	<classpathentry kind="lib" path="/Users/matteomantione/Downloads/javafx-sdk-18.0.2/lib/javafx.fxml.jar"/>
+	<classpathentry kind="lib" path="/2018-09-12/lib/mysql-connector-java-5.1.46-bin.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
