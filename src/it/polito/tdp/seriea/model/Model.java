@@ -2,9 +2,12 @@ package it.polito.tdp.seriea.model;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.jgrapht.Graph;
 import org.jgrapht.Graphs;
@@ -21,6 +24,7 @@ public class Model {
 	
 	// Variabili per la ricorsione
 	private List<Team> best;
+	private Set<DefaultWeightedEdge> usedEdges;
 	
 	public Model() {
 		dao = new SerieADAO();
@@ -71,37 +75,68 @@ public class Model {
 	
 	public List<Team> calcolaDomino(){
 		this.best = new LinkedList<>();
+		this.usedEdges = new HashSet<>();
+		
 		List<Team> parziale = new LinkedList<>();
+
+		/***ATTENZIONE***/
+		/**
+		 * Elimina dei vertici dal grafo per renderlo
+		 * gestibile dalla ricorsione.
+		 * Nella soluzione "vera" questa istruzione va rimossa
+		 * (però l'algoritmo non termina in tempi umani).
+		 */
+		this.riduciGrafo(8);
 		
 		for (Team t : this.grafo.vertexSet()) {
 			parziale.add(t);
-			cerca(parziale);
-			parziale.clear();
+			cerca(1, t, parziale);
+			parziale.remove(t);
 		}
 		
 		return this.best;
 	}
 	
-	public void cerca(List<Team> parziale) {
-		Team ultimo = parziale.get(parziale.size()-1);
-		/*
-		for (DefaultWeightedEdge edge : this.grafo.)
-		
-		
-		
-		for (Team adiacente : Graphs.successorListOf(this.grafo, ultimo)) {
-			if (this.grafo.getEdgeWeight(this.grafo.getEdge(ultimo, adiacente)) == 1) {
-				parziale.add(adiacente);
-				cerca(parziale);
-				parziale.remove(parziale.size()-1);
-			}
-		}
-		*/	
+	public void cerca(int step, Team t1, List<Team> parziale) {
+		// controllo se ho migliorato il cammino "best"
 		if (parziale.size() > best.size()) {
+			// aggiorno la soluzione migliore
 			best = new LinkedList<>(parziale);
-			return;
 		}
+		
+		// cerchiamo di aggiungere un nuovo vertice
+		for (DefaultWeightedEdge edge : this.grafo.outgoingEdgesOf(t1)) {
+			Team t2 = this.grafo.getEdgeTarget(edge);
 			
+			// dobbiamo verificare che l'arco sia relativo ad una partita vinta 
+			// e che non sia ancora stato utilizzato
+			if (this.grafo.getEdgeWeight(edge) == 1 && !this.usedEdges.contains(edge)) {
+				// provo ad attraversare l'arco
+				parziale.add(t2);
+				this.usedEdges.add(edge);
+				cerca(step+1, t2, parziale);
+				usedEdges.remove(edge);
+				parziale.remove(parziale.size()-1); // parziale.remove(t2) NON va bene perchè 
+													// t2 può comparire più di una volta 
+			}
+		}		
+	}
+	
+	/**
+	 * cancella dei vertici dal grafo in modo che la sua dimensione
+	 * sia solamente pari a {@code dim} vertici
+	 * @param dim
+	 */
+	private void riduciGrafo(int dim) {
+		Set<Team> togliere = new HashSet<>() ;
+		
+		Iterator<Team> iter = this.grafo.vertexSet().iterator() ;
+		for(int i=0; i<this.grafo.vertexSet().size()-dim; i++) {
+			togliere.add(iter.next()) ;
+		}
+		this.grafo.removeAllVertices(togliere) ;
+		System.err.println("Attenzione: cancello dei vertici dal grafo");
+		System.err.println("Vertici rimasti: "+this.grafo.vertexSet().size()+"\n");
 	}
 	
 	public List<Season> getAllSeasons(){
