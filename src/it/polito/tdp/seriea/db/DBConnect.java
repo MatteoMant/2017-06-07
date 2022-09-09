@@ -1,6 +1,7 @@
 package it.polito.tdp.seriea.db;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import javax.sql.DataSource;
@@ -9,7 +10,7 @@ import com.mchange.v2.c3p0.DataSources;
 
 public class DBConnect {
 	
-	private static String jdbcURL = "jdbc:mysql://localhost/serie_a?user=root&password=root" ;
+	private static String jdbcURL = "jdbc:mysql://localhost/serie_a?serverTimezone=Europe/Rome&useSSL=false" ;
 	
 	private static DataSource ds ;
 	
@@ -27,7 +28,7 @@ public class DBConnect {
 		}
 		
 		try {
-			Connection c = ds.getConnection() ;
+			Connection c = DriverManager.getConnection(jdbcURL, "root", "simmy2003!");
 			return c ;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
